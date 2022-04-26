@@ -26,7 +26,7 @@ class Help(commands.Cog, name="Help"):
     @commands.command()
     async def help(self, ctx: commands.Context):
         # Other Cogs: "👪 Team Commands", "🛡️ Captain Commands",
-        cog_name_list = ["💫 'Naut Commands", "🧍 Player Commands", "🎲 Scrim Commands"]
+        cog_name_list = ["🧔 Paul's Commands"]
         cogs = [cog for cog in cog_name_list if len(self.bot.get_cog(cog).get_commands()) != 0]
 
         prefix_dict = {}
