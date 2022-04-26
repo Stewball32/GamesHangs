@@ -1,4 +1,6 @@
 import asyncio
+from typing import List
+
 import config
 import discord
 from discord.ext import commands
@@ -26,7 +28,7 @@ class Help(commands.Cog, name="Help"):
     @commands.command()
     async def help(self, ctx: commands.Context):
         # Other Cogs: "👪 Team Commands", "🛡️ Captain Commands",
-        cog_name_list = ["🧔 Paul's Commands"]
+        cog_name_list = ["🧔 Paul's Commands", "👨 Jeff's Commands"]
         cogs = [cog for cog in cog_name_list if len(self.bot.get_cog(cog).get_commands()) != 0]
 
         prefix_dict = {}
@@ -104,28 +106,31 @@ class Help(commands.Cog, name="Help"):
 
         home_option = discord.SelectOption(label="🏠 All Commands", value=str(0), emoji="🏠")
 
-        quick_embed = discord.Embed(colour=cf.color_info, title=f"🏠 QuickStart Info",
-                                    description="Get a jump into the Ladder System!\n"
-                                                "*brackets[] are to show input, you don't need the brackets"
-                                                "when entering the info*")
+        quick_embed = discord.Embed(colour=cf.color_info, title=f"🏠 About {self.bot.user.name}",
+                                    description=f"This is a bot set up by <@266815915604049920> "
+                                                f"to help automate some functions in the server.\n\n"
+                                                f"If you have an idea on something to implement, "
+                                                f"feel free to share it!")
         # quick_embed.set_author(name=f"🏠 QuickStart Info")
-        quick_embed.add_field(name="Step 1: Join the Ladder system", inline=False,
-                              value=f'Use `{current_prefix}newplayer`\n'
-                                    f'Register yourself for the ladder to see you.\n\u200b')
-        quick_embed.add_field(name="Step 2: Create a Team or Join a Team.", inline=False,
-                              value=f'*You can skip this step if you\'re only interested in 1v1s*\n'
-                                    f'Use `{current_prefix}newteam` or `{current_prefix}jointeam`.\n'
-                                    f'Create your own team and invite people `{current_prefix}inviteplayer [player]`, '
-                                    f'or find your friend\'s team and join them `{current_prefix}jointeam [team tag]`\n\u200b')
-        quick_embed.add_field(name="Step 3: Join a Ladder.", inline=False,
-                              value=f'Use `{current_prefix}joinladder [ladder tag]` to join a ladder to compete in!\n'
-                                    f'Can\'t find a ladder to join? Use `{current_prefix}infoladder` to find one you like!\n\u200b')
-        quick_embed.add_field(name=f"Step 4: Challenge someone to a Match!", inline=False,
-                              value=f"Use `{current_prefix}newmatch [ladder tag] (team tag)` to schedule a match "
-                                    f"against an opponent!\n\u200b")
+
+        # quick_embed.add_field(name="Step 1: Join the Ladder system", inline=False,
+        #                       value=f'Use `{current_prefix}newplayer`\n'
+        #                             f'Register yourself for the ladder to see you.\n\u200b')
+        # quick_embed.add_field(name="Step 2: Create a Team or Join a Team.", inline=False,
+        #                       value=f'*You can skip this step if you\'re only interested in 1v1s*\n'
+        #                             f'Use `{current_prefix}newteam` or `{current_prefix}jointeam`.\n'
+        #                             f'Create your own team and invite people `{current_prefix}inviteplayer [player]`, '
+        #                             f'or find your friend\'s team and join them `{current_prefix}jointeam [team tag]`\n\u200b')
+        # quick_embed.add_field(name="Step 3: Join a Ladder.", inline=False,
+        #                       value=f'Use `{current_prefix}joinladder [ladder tag]` to join a ladder to compete in!\n'
+        #                             f'Can\'t find a ladder to join? Use `{current_prefix}infoladder` to find one you like!\n\u200b')
+        # quick_embed.add_field(name=f"Step 4: Challenge someone to a Match!", inline=False,
+        #                       value=f"Use `{current_prefix}newmatch [ladder tag] (team tag)` to schedule a match "
+        #                             f"against an opponent!\n\u200b")
+
         quick_embed.set_footer(text=footer, icon_url=self.bot.user.display_avatar.url)
 
-        quick_option = discord.SelectOption(label="🏠 QuickStart Info", value=str(1), emoji="🏠")
+        quick_option = discord.SelectOption(label=f"🏠 About {self.bot.user.name}", value=str(1), emoji="🏠")
 
         home_select = discord.ui.Select(custom_id="Home", placeholder="🏠 All Commands",
                                         options=[home_option, quick_option])
@@ -136,7 +141,7 @@ class Help(commands.Cog, name="Help"):
 
         for cog_name in cogs:
             cog = self.bot.get_cog(f"{cog_name}")
-            cog_commands = cog.get_commands()
+            cog_commands: List[commands.command] = cog.get_commands()
 
             help_embed = discord.Embed(title=f'{cog_name} Overview', color=cf.color_info,
                                        description=f"{cog.description}\n\n"

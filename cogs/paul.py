@@ -28,10 +28,8 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
             location=voice_channel,
             description="We hanging and gaming.",
         )
+
         await ctx.send(new_event.url)
-
-        # now_pacific = now.astimezone(pacific)
-
 
 
 def setup(bot):
