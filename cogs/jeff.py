@@ -36,7 +36,10 @@ class jeffCommands(commands.Cog, name="👨 Jeff's Commands"):
             emoji = random.choice(emoji_list)
             emoji.replace('\u200d', '')
             emoji_list.remove(emoji)
-            await message.add_reaction(emoji)
+            try:
+                await message.add_reaction(emoji)
+            except discord.HTTPException:
+                continue
 
     @commands.command(brief=f"Auto-react to your messages", usage="[number=1] [emojis*]", aliases=[],
                       help="Each emoji you input should have a space in between.",
@@ -48,15 +51,17 @@ class jeffCommands(commands.Cog, name="👨 Jeff's Commands"):
 
         emoji_list = []
         for i in emojis:
-            print(i, end="")
             try:
                 emoji = i.replace('\u200d', '')
                 await ctx.message.add_reaction(emoji)
                 emoji_list += [emoji]
-                print("y")
             except discord.HTTPException:
-                print("n")
                 continue
+
+        if not emoji_list:
+            return await f.error_embed(ctx, "Couldn't add any emojis!\n\n"
+                                            "Some emoji are actually 2 seperate ones put together, "
+                                            "I tend to not be able to figure those out yet.", ctx.author)
 
         c.execute("INSERT OR REPLACE INTO react VALUES (?, ?, ?)",
                   (ctx.author.id, str(emoji_list), num))
