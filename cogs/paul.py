@@ -15,6 +15,7 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
             return
         voice_channel = guild.voice_channels[-1]
         text_channel = guild.get_channel(758566294836215831)
+        role = guild.get_role(923078735945662505)
         if not voice_channel and not text_channel:
             return
 
@@ -33,7 +34,7 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
             description="We hanging and gaming.",
         )
 
-        await text_channel.send(new_event.url)
+        await text_channel.send(f"Yo {role.mention}\n{new_event.url}")
 
     @tasks.loop(time=datetime.time(hour=18, tzinfo=pytz.timezone('America/Los_Angeles')))
     async def checkevent(self):
