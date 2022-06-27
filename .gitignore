@@ -1,0 +1,8 @@
+/config.py
+/discord.log
+/databases/bot.db
+/databases/jeff.db
+/databases/games.db
+/databases/ladder.db
+/databases/tourney.db
+/databases/wordle.db
