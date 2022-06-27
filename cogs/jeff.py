@@ -127,13 +127,14 @@ class jeffCommands(commands.Cog, name="👨 Jeff's Commands"):
             return
 
         member = message.guild.get_member(message.author.id)
+        if new_nickname == "JEF" and member.id == 273320140119080961:
+            await message.channel.send(random.choice(jef_success))
+
         try:
             await message.author.edit(nick=new_nickname)
         except discord.Forbidden:
             return
 
-        if new_nickname == "JEF" and member.id == 273320140119080961:
-            await message.channel.send(random.choice(jef_success))
 
     @commands.command(brief=f"Change nickname to reactions", usage="", aliases=['tognick'],
                       help="Must have the auto-react active.",
