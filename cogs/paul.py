@@ -4,10 +4,14 @@ import datetime
 import pytz
 
 
+PACIFIC = pytz.timezone('America/Los_Angeles')
+NIGHT = datetime.time(hour=18, tzinfo=PACIFIC)
+
+
 class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
     def __init__(self, bot: discord.Bot):
         self.bot = bot
-        self.pacific = pytz.timezone('America/Los_Angeles')
+        self.checkevent.start()
 
     async def makeevent(self):
         guild = self.bot.get_guild(758566294836215828)
@@ -36,11 +40,10 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
 
         await text_channel.send(f"Yo {role.mention}\n{new_event.url}")
 
-    @tasks.loop(time=datetime.time(hour=18, tzinfo=pytz.timezone('America/Los_Angeles')))
+    @tasks.loop(time=NIGHT)
     async def checkevent(self):
-        utc_now: datetime.datetime = pytz.utc.localize(datetime.datetime.utcnow())
-        pacific_now = utc_now.astimezone(self.pacific)
-        if pacific_now.weekday() == 6:
+        now = datetime.datetime.now(PACIFIC)
+        if now.weekday() == 6:
             await self.makeevent()
 
     @commands.command(brief=f"Make monday event", usage="", aliases=['mon'],
@@ -49,6 +52,9 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
                                   "and post it in the channel the command was created.")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def monday(self, ctx: commands.Context):
+        for event in ctx.guild.scheduled_events:
+            if event.name == "Monday Game Night":
+                return await ctx.send("There's already a Monday Game Night Event!")
         await self.makeevent()
 
 
