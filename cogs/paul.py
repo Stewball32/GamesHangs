@@ -5,7 +5,7 @@ import pytz
 
 
 PACIFIC = pytz.timezone('America/Los_Angeles')
-NIGHT = datetime.time(hour=18, tzinfo=PACIFIC)
+NIGHT = datetime.time(hour=18, minute=30, tzinfo=PACIFIC)
 
 
 class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
@@ -29,7 +29,7 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
         else:
             monday = today + datetime.timedelta(days=-today.weekday(), weeks=1)
         monday_night = datetime.datetime.combine(monday, datetime.time(19, 30))
-        next_event = self.pacific.localize(monday_night)
+        next_event = PACIFIC.localize(monday_night)
 
         new_event = await guild.create_scheduled_event(
             name="Monday Game Night",
