@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands, tasks
 import datetime
 import pytz
+import calendar
 
 
 PACIFIC = pytz.timezone('America/Los_Angeles')
@@ -45,6 +46,10 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
         now = datetime.datetime.now(PACIFIC)
         if now.weekday() == 6:
             await self.makeevent()
+        else:
+            today = calendar.day_name[now.weekday()]
+            channel = self.bot.get_guild(758566294836215828).get_channel(758566294836215831)
+            await channel.send(f"It's {today}!")
 
     @commands.command(brief=f"Make monday event", usage="", aliases=['mon'],
                       help="",  # help is the requirements
