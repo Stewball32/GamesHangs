@@ -52,9 +52,12 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
                                   "and post it in the channel the command was created.")
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def monday(self, ctx: commands.Context):
+        now = int(datetime.datetime.now(pytz.UTC).timestamp())
+
         for event in ctx.guild.scheduled_events:
-            if event.name == "Monday Game Night":
+            if event.name == "Monday Game Night" and int(event.start_time.timestamp()) > now:
                 return await ctx.send("There's already a Monday Game Night Event!")
+
         await self.makeevent()
 
 
