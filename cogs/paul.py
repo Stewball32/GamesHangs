@@ -6,7 +6,7 @@ import calendar
 
 
 PACIFIC = pytz.timezone('America/Los_Angeles')
-NIGHT = datetime.time(hour=18, minute=30, tzinfo=PACIFIC)
+NIGHT = datetime.time(18, 30, 0, 0, PACIFIC)
 
 
 class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
@@ -43,6 +43,8 @@ class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
 
     @tasks.loop(time=NIGHT)
     async def checkevent(self):
+        stewball = self.bot.get_user(266815915604049920)
+        await stewball.send("hi")
         now = datetime.datetime.now(PACIFIC)
         if now.weekday() == 6:
             await self.makeevent()
