@@ -6,7 +6,7 @@ import calendar
 
 
 PACIFIC = pytz.timezone('America/Los_Angeles')
-NIGHT = datetime.time(18, 30, 0, 0, PACIFIC)
+NIGHT = datetime.time(18, 30, 0, 0, pytz.UTC)
 
 
 class paulCommands(commands.Cog, name="🧔 Paul's Commands"):
